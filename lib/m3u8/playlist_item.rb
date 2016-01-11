@@ -88,16 +88,16 @@ module M3u8
 
     def attributes
       [program_id_format,
-       resolution_format,
-       codecs_format,
        bandwidth_format,
        average_bandwidth_format,
+       resolution_format,
+       closed_captions_format,
+       subtitles_format,
        audio_format,
        video_format,
-       subtitles_format,
-       rendition_id_format,
        name_format,
-       closed_captions_format].compact.join(',')
+       rendition_id_format,
+       codecs_format].compact.join(',')
     end
 
     def program_id_format
