@@ -5,7 +5,8 @@ module M3u8
     extend M3u8
     attr_accessor :program_id, :width, :height, :codecs, :bandwidth,
                   :audio_codec, :level, :profile, :video, :audio, :uri,
-                  :average_bandwidth, :subtitles, :closed_captions, :iframe
+                  :average_bandwidth, :subtitles, :closed_captions, :iframe,
+                  :rendition_id, :name
     MISSING_CODEC_MESSAGE = 'Audio or video codec info should be provided.'
 
     def initialize(params = {})
@@ -27,6 +28,8 @@ module M3u8
                   average_bandwidth: average,
                   video: attributes['VIDEO'], audio: attributes['AUDIO'],
                   uri: attributes['URI'], subtitles: attributes['SUBTITLES'],
+                  rendition_id: attributes['RENDITION-ID'],
+                  name: attributes['NAME'],
                   closed_captions: attributes['CLOSED-CAPTIONS'] }
       PlaylistItem.new options
     end
@@ -92,6 +95,8 @@ module M3u8
        audio_format,
        video_format,
        subtitles_format,
+       rendition_id_format,
+       name_format,
        closed_captions_format].compact.join(',')
     end
 
@@ -111,6 +116,15 @@ module M3u8
 
     def bandwidth_format
       "BANDWIDTH=#{bandwidth}"
+    end
+
+    def rendition_id_format
+      return if rendition_id.to_i<=0
+      "RENDITION-ID=#{rendition_id.to_i}"
+    end
+
+    def name_format
+      "name=\"#{name}\""
     end
 
     def average_bandwidth_format
